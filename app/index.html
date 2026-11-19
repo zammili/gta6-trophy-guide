@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Leonida Ledger — GTA VI Trophy Guide &amp; Tracker</title>
+<meta name="description" content="An offline guide and tracker for all 55 PlayStation 5 trophies of Grand Theft Auto VI: cited guides, a roadmap to the platinum, missable flags, filters and spoiler protection.">
+<link rel="stylesheet" href="style.css">
+<script src="app.js" defer></script>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead-inner">
+    <p class="masthead-kicker">Grand Theft Auto VI · PlayStation 5 · 55 trophies</p>
+    <h1>Leonida Ledger</h1>
+    <p class="masthead-tagline">Every trophy in Leonida, accounted for — a guide and tracker
+    that runs entirely from this folder, with the network off.</p>
+
+    <section id="progress-summary" class="progress-summary" aria-label="Your progress">
+      <p id="progress-text" class="progress-text">0 of 55 trophies earned</p>
+      <div class="progress-track" role="progressbar" aria-label="Trophies earned" aria-valuemin="0" aria-valuemax="55">
+        <div id="progress-fill" class="progress-fill"></div>
+      </div>
+      <ul id="grade-summary" class="grade-summary">
+        <!-- app.js fills this in: one item per grade, earned / total -->
+      </ul>
+    </section>
+  </div>
+</header>
+
+<section id="roadmap" class="roadmap" aria-labelledby="roadmap-heading">
+  <h2 id="roadmap-heading">Roadmap to the platinum</h2>
+  <p class="section-note">The order to earn them in, built from the official trophy
+  descriptions: story first with an eye on the missables, then the collections and counts.</p>
+  <ol id="roadmap-stages" class="roadmap-stages">
+    <!-- app.js fills this in: one stage per step of the road -->
+  </ol>
+</section>
+
+<section class="controls" aria-label="Find and filter trophies">
+  <div class="controls-row">
+    <label class="search-label" for="search-input">Search</label>
+    <input id="search-input" type="search" placeholder="Trophy name, description or guide…" autocomplete="off">
+  </div>
+
+  <div class="controls-row">
+    <span class="filter-label" id="kind-filters-label">Kind</span>
+    <div id="kind-filters" class="chip-row" role="group" aria-labelledby="kind-filters-label">
+      <!-- app.js fills this in: story, missable, collectibles, activities, online -->
+    </div>
+  </div>
+
+  <div class="controls-row">
+    <span class="filter-label" id="grade-filters-label">Grade</span>
+    <div id="grade-filters" class="chip-row" role="group" aria-labelledby="grade-filters-label">
+      <!-- app.js fills this in: platinum, gold, silver, bronze -->
+    </div>
+  </div>
+
+  <div class="controls-row">
+    <span class="filter-label" id="status-filters-label">Status</span>
+    <div id="status-filters" class="chip-row" role="group" aria-labelledby="status-filters-label">
+      <!-- app.js fills this in: all, earned, unearned -->
+    </div>
+  </div>
+
+  <div class="controls-row controls-actions">
+    <label class="spoiler-toggle" for="spoiler-toggle">
+      <input id="spoiler-toggle" type="checkbox" checked>
+      Hide story spoilers until earned
+    </label>
+    <span class="action-spacer"></span>
+    <button id="export-btn" type="button">Export progress</button>
+    <button id="import-btn" type="button">Import progress</button>
+    <input id="import-file" type="file" accept="application/json,.json" hidden>
+    <button id="reset-btn" type="button">Reset</button>
+  </div>
+</section>
+
+<main>
+  <section aria-labelledby="checklist-heading">
+    <h2 id="checklist-heading">The checklist</h2>
+    <p id="result-count" class="result-count" role="status"></p>
+    <ul id="trophy-list" class="trophy-list">
+      <!-- app.js fills this in: one li.trophy-card per trophy -->
+    </ul>
+    <p id="empty-message" class="empty-message" hidden>No trophy matches the current filters.</p>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <p><strong>Offline by design.</strong> This guide is plain static files: it loads nothing
+  over the network, and your checklist lives only in this browser's local storage until
+  you export it.</p>
+  <p><strong>Sources.</strong> Trophy names, descriptions and grades are as PlayStation
+  publishes them. Each guide is written for this entry and names its sources beside it —
+  the official list and the trophy listings that agree with it — so every fact can be
+  checked where it came from.</p>
+</footer>
+
+</body>
+</html>

@@ -65,6 +65,22 @@
           });
         }
         if (typeof saved.spoilers === 'boolean') state.spoilers = saved.spoilers;
+        if (typeof saved.search === 'string') state.search = saved.search;
+        if (saved.kind === 'all' || KINDS.indexOf(saved.kind) >= 0) {
+          state.kind = saved.kind;
+        }
+        if (saved.grade === 'all' || GRADES.indexOf(saved.grade) >= 0) {
+          state.grade = saved.grade;
+        }
+        if (['all', 'earned', 'unearned'].indexOf(saved.status) >= 0) {
+          state.status = saved.status;
+        }
+        if (saved.openGuides && typeof saved.openGuides === 'object') {
+          Object.keys(saved.openGuides).forEach(function (k) {
+            var id = Number(k);
+            if (saved.openGuides[k] && knownIds[id]) openGuides[id] = true;
+          });
+        }
       }
     } catch (err) { /* a corrupt save must never break the guide */ }
   }
@@ -73,7 +89,12 @@
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify({
         earned: state.earned,
-        spoilers: state.spoilers
+        spoilers: state.spoilers,
+        search: state.search,
+        kind: state.kind,
+        grade: state.grade,
+        status: state.status,
+        openGuides: openGuides
       }));
     } catch (err) { /* storage full/blocked: the session still works */ }
   }
@@ -205,23 +226,23 @@
     var kindHost = byId('kind-filters');
     kindHost.innerHTML = '';
     kindHost.appendChild(chip('All kinds', 'all', state.kind, function (v) {
-      state.kind = v; refresh();
+      state.kind = v; saveState(); refresh();
     }));
     KINDS.forEach(function (k) {
       kindHost.appendChild(chip(KIND_LABELS[k], k, state.kind, function (v) {
-        state.kind = v; refresh();
+        state.kind = v; saveState(); refresh();
       }));
     });
 
     var gradeHost = byId('grade-filters');
     gradeHost.innerHTML = '';
     gradeHost.appendChild(chip('All grades', 'all', state.grade, function (v) {
-      state.grade = v; refresh();
+      state.grade = v; saveState(); refresh();
     }));
     GRADES.forEach(function (g) {
       var label = g.charAt(0).toUpperCase() + g.slice(1);
       gradeHost.appendChild(chip(label, g, state.grade, function (v) {
-        state.grade = v; refresh();
+        state.grade = v; saveState(); refresh();
       }));
     });
 
@@ -229,7 +250,7 @@
     statusHost.innerHTML = '';
     [['all', 'All'], ['earned', 'Earned'], ['unearned', 'Not yet']].forEach(function (pair) {
       statusHost.appendChild(chip(pair[1], pair[0], state.status, function (v) {
-        state.status = v; refresh();
+        state.status = v; saveState(); refresh();
       }));
     });
   }
@@ -311,6 +332,7 @@
     toggle.setAttribute('aria-expanded', openGuides[e.id] ? 'true' : 'false');
     toggle.addEventListener('click', function () {
       openGuides[e.id] = !openGuides[e.id];
+      saveState();
       guide.hidden = !openGuides[e.id];
       toggle.textContent = openGuides[e.id] ? 'Hide guide' : 'Show guide';
       toggle.setAttribute('aria-expanded', openGuides[e.id] ? 'true' : 'false');
@@ -404,6 +426,9 @@
   /* ---------- URL presets (screenshot-friendly) ---------- */
 
   function applyPresets(entries) {
+    /* Whatever view state loadState() restored goes back into the
+       search box; any URL preset below then overrides it. */
+    byId('search-input').value = state.search;
     var q = new URLSearchParams(window.location.search);
     if (q.get('kind') && (q.get('kind') === 'all' || KINDS.indexOf(q.get('kind')) >= 0)) {
       state.kind = q.get('kind');
@@ -441,6 +466,7 @@
   function wire() {
     byId('search-input').addEventListener('input', function (ev) {
       state.search = ev.target.value.trim().toLowerCase();
+      saveState();
       var entries = trophies.map(entryFor);
       renderList(entries);
     });
